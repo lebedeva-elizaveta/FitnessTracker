@@ -14,3 +14,4 @@
 - Техническое задание
 [docx](https://github.com/lebedeva-elizaveta/FitnessTracker/blob/main/documentation/ТЗ_спортик_и_точка.docx)
 [pdf](https://github.com/lebedeva-elizaveta/FitnessTracker/blob/main/documentation/ТЗ_спортик_и_точка.pdf)
+- Подтверждение [задач по оформлению](https://github.com/lebedeva-elizaveta/FitnessTracker/blob/main/documentation/задачи%20по%20оформлению.pdf)
