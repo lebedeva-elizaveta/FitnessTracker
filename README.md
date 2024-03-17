@@ -16,9 +16,6 @@
 [pdf](https://github.com/lebedeva-elizaveta/FitnessTracker/blob/main/documentation/ТЗ_спортик_и_точка.pdf)
 - Подтверждение [задач по оформлению](https://github.com/lebedeva-elizaveta/FitnessTracker/blob/main/documentation/задачи%20по%20оформлению.pdf)
 - Презентация технического задания
-[pptx](https://docs.google.com/presentation/d/1qnr1kSdX6Hf72Ct_WgDdG0mIJ2EqfXMX/edit?usp=drive_link&ouid=100220230475322534661&rtpof=true&sd=true)
-[pdf](https://drive.google.com/file/d/1737xXAvHikvWNMXOa9Fa_HGxddq-8zG9/view?usp=drive_link)
-- Сопроводительное письмо
-[docx](https://github.com/lebedeva-elizaveta/FitnessTracker/blob/main/documentation/сопроводительное%20письмо.docx)
-[pdf](https://github.com/lebedeva-elizaveta/FitnessTracker/blob/main/documentation/сопроводительное%20письмо.pdf)
-- Видео с [презентацией](https://drive.google.com/file/d/1eDiusDdSt9Hz3idhz-luRJ10dtwKzqPq/view?usp=drive_link)
+[pptx](https://docs.google.com/presentation/d/1NHZ_jL5ez2CmKgNM5DcgpiV8B4-mD4gs/edit?usp=drive_link&ouid=100220230475322534661&rtpof=true&sd=true)
+[pdf](https://drive.google.com/file/d/1rlh87wjFIYERcZ4Z6BroeiVsHKWEzhEC/view?usp=drive_link)
+- Видео с [презентацией](https://youtu.be/lHHgl9F8JbE)
