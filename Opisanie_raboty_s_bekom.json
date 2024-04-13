@@ -1,0 +1,441 @@
+Вход пользователя:
+LoginRequest
+{
+	"email": "email@gmail.com",
+	"password": "somepassword"
+}
+
+В случае успешного входа:
+
+LoginResponse
+{
+	"success": true,
+	"access_token": "some12345token",
+	"user_id": 123456,
+	"role": "regular" // premium, admin
+}, 200 //добавила коды ошибок
+
+В случае, если вход не был успешным:
+1. Пользователь заблокирован
+{
+	"success": false,
+	"error": "USER_BLOCKED"
+}, 403
+На мобилке обрабатываем ошибки.
+Пользователь должен увидеть сообщение: "Вы заблокированы. Связаться с нами: kakoi-to_email@gmail.com."
+
+2. Пользователь не найден (email не найден в базе)
+{
+	"success": false,
+	"error": "USER_NOT_FOUND"
+}, 404
+Пользователь должен увидеть сообщение: "Пользователь не найден. Связаться с нами: kakoi-to_email@gmail.com."
+
+3. Пароль неверный
+{
+	"success": false,
+	"error": "INCORRECT_PASSWORD"
+}, 401
+Пользователь должен увидеть сообщение: "Неверный пароль. Связаться с нами: kakoi-to_email@gmail.com."
+
+Невалидные данные проверяем на мобилке. Пользователь должен увидеть сообщение: "Данные не валидны. Связаться с нами: kakoi-to_email@gmail.com."
+Поля с невалидными данными предлагаю, например, подсвечивать красным.
+
+Регистрация пользователя:
+В хэдере "email" посылаем проверяемый email, а в ответ получаем:  //поменяла название хэдера
+ValidateEmailResponse
+{
+	"free": true/false
+}
+
+Если false, то ошибка 409, пользователь видит сообщение: "Данный email уже используется."
+
+Запрос для регистрации:
+RegisterRequest
+{
+	"name": "some_name",
+	"weight": 81,
+	"image": "string_image",
+	"phone": "+7 (980) 343-86-78",
+	"birthday": "гггг-мм-дд", // формат даты поменяла
+	"email": "email@gmail.com",
+	"password": "somepassword"
+}
+
+RegisterResponse
+В случае успешной регистрации:
+{
+	"success": true,
+	"access_token": "some12345token",
+	"user_id": 123456
+}, 201
+
+Невалидные данные проверяем на мобилке. Пользователь должен увидеть сообщение: "Данные не валидны. Связаться с нами: kakoi-to_email@gmail.com."
+Сообщение об ошибке должно выводиться не у каждого поля с невалидными данными, а только один раз внизу.
+Поля с невалидными данными предлагаю, например, подсвечивать красным.
+
+Получение списка активностей:
+Прокидываем "Bearer access_token" в хэдере "authorization", а получаем список активностей в виде:
+(Одна активность):
+ActivityResponse
+{
+	"id": 1234,
+	"activity_type": "running", // cycling or swimming
+	"image": "string_image",
+	"date": "гггг-мм-дд", // формат даты и название поля поменяла
+	"avg_speed": 1234.5, // плавающая точка
+	"distance_in_meters": 12345,
+	"duration": 123456789, // название поля поменяла, переводим длительность в секунды и передаем на сервер
+	"calories_burned": 1234
+}
+
+(Список активностей(то, что будем получать)):
+List<ActivityResponse>
+{
+	[
+		{
+			"id": 1234,
+			"activity_type": "running", // cycling or swimming
+			"image": "string_image",
+			"date": "гггг-мм-дд",
+			"avg_speed": 1234.5,
+			"distance_in_meters": 12345,
+			"duration": 123456789,
+			"calories_burned": 1234
+		},
+		{
+			"id": 1234,
+			"activity_type": "running", // cycling or swimming
+			"image": "string_image",
+			"date": "гггг-мм-дд",
+			"avg_speed": 1234.5,
+			"distance_in_meters": 12345,
+			"duration": 123456789,
+			"calories_burned": 1234
+		},
+		{
+			"id": 1234,
+			"activity_type": "running", // cycling or swimming
+			"image": "string_image",
+			"date": "гггг-мм-дд",
+			"avg_speed": 1234.5,
+			"distance_in_meters": 12345,
+			"duration": 123456789,
+			"calories_burned": 1234
+		}
+	]
+}, 200
+
+Ошибка токена
+TokenErrorResponse
+{
+	"success": false
+}, 401
+
+Если такого пользователя нет:
+UserNotFoundResponse
+{
+	"success": false
+}, 404
+Пользователь, наверное, просто увидит сообщение: "Произошла ошибка."
+
+Создание новой активности:
+В хедере "аuthorization" прокидываем "Bearer access_token" (и из него извлекаем "user_id"), а в body прокидываем:
+
+AddActivityRequest
+{
+	"activity_type": "running", // cycling or swimming
+	"image": "string_image",
+	"date": "гггг-мм-дд", // формат даты поменяла
+	"avg_speed": 1234.5, // скорость с плавающей точкой
+	"distance_in_meters": 12345,
+	"duration": 123456789, // название длительности поменяла, передаем в секундах
+	"calories_burned": 1234
+}
+
+В случае, если активность успешно добавлена
+AddActivityResponse
+{
+	"success": true,
+	"activity_id": 1234
+}, 201
+Я предполагаю, что, возможно, при значении true пользователь увидит какое-нибудь сообщение "Активность успешно сохранена."
+
+Ошибка токена
+TokenErrorResponse
+{
+	"success": false
+}, 401
+
+Если такого пользователя нет:
+UserNotFoundResponse
+{
+	"success": false
+}, 404
+Пользователь, наверное, просто увидит сообщение: "Произошла ошибка."
+
+Работа с юзерами(для рейтинга):
+В хедере "аuthorization" прокидываем "Bearer access_token" пользователя.
+Получаем List<UserResponse>.
+UserResponse:
+{
+	"id": 12345,
+	"name": "John Doe",
+	"image": "string_image",
+	"role": "regular", // premium, admin
+	"rating": 1234, // я думаю, что лучше считать на бэке
+	"total_activities_count": 1234,
+	"total_distance_in_meters": 123411, //для сохранения единообразия предлагаю везде передавать с бэка расстояние в метрах, а на мобилке переводить в км
+	"total_time": 123456789, // секунды
+	"total_calories": 123456789,
+	"avg_speed": 1234.5,
+	"average_distance_in_meters": 12345,
+	"average_time": 12345,
+	"average_calories": 12345,
+	"achievements": [
+		{
+			"id": 1234,
+			"name": "name_of_achievement",
+			"image": "string_image", // На случай, если все же добавим админу возможность создавать кастомные ачивки
+			"distance": 123456789
+		},
+		{
+			"id": 1234,
+			"name": "name_of_achievement",
+			"image": "string_image", // На случай, если все же добавим админу возможность создавать кастомные ачивки
+			"distance": 123456789
+		},
+		{
+			"id": 1234,
+			"name": "name_of_achievement",
+			"image": "string_image", // На случай, если все же добавим админу возможность создавать кастомные ачивки
+			"distance": 123456789
+		}
+	]
+}
+
+Для всех действий админа предлагаю передавать в хедере "Bearer access_token" и использовать один общий запрос.
+AdminActionRequest
+{
+	"user_id": "1234",
+	"action": "grant_premium" // или "revoke_premium" для отмены премиума, "block" для блокировки, или "unblock" для снятия блокировки
+}
+
+AdminActionResponse
+В случае успешных действий:
+{
+	"success": true,
+	"action": "grant_premium", // или "revoke_premium" для отмены премиума, "block" для блокировки, или "unblock" для снятия блокировки
+	"timestamp": 123456789 // дата начала премиум-подписки, только для действия "grant_premium"
+}, 200 (а для "grant_premium" 201)
+
+Админ видит соответствующее сообщение в зависимости от action:
+1. "Пользователь успешно заблокирован"
+2. "Пользователь успешно разблокирован"
+3. "Пользователь успешно премиум-подписку"
+4. "Пользователь больше не является премиум-пользователем"
+
+Если какое-то неправильное действие
+InvalidActionErrorResponse
+{
+	"success": false,
+	"message": "Invalid action"
+}, 400
+
+Ошибка токена
+TokenErrorResponse
+{
+	"success": false
+}, 401
+
+Если такого пользователя нет:
+UserNotFoundResponse
+{
+	"success": false
+}, 404
+Пользователь, наверное, просто увидит сообщение: "Произошла ошибка."
+
+Работа с премиумом:
+
+Для приобретения премиума в хедере передаем "Bearer access_token", а в body:
+BuyPremiumRequest
+{
+	"card_name": "some_card_name",
+	"card_number": "some_card_number",
+	"month": 11,
+	"year": 11,
+	"cvv": 11
+}
+
+А в ответ получать:
+GetPremiumResponse
+{
+	"success": true,
+	"timestamp": 12345678
+}
+Пользователь должен увидеть сообщение: "Поздравляем с приобретенем премиум-подписки!"
+
+Невалидные данные проверяем на мобилке.
+Пользователь должен увидеть сообщение: "Данные не валидны. Связаться с нами: kakoi-to_email@gmail.com."
+
+Для получение текущих данных прокидываем в хедере "Bearer access_token", а в body:
+GetCurrentDataRequest
+{
+	"name": "curr_name",
+	"image": "string_image",
+	"phone": "+7 (999) 123-45-67",
+	"birthday": "гггг-мм-дд",
+	"weight": 50
+}
+
+А в ответ получаем:
+GetCurrentDataResponse
+{
+	"success": true/false
+}
+
+Для изменения личных данных прокидываем в хедере "Bearer access_token", а в body:
+ChangeDataUserRequest
+{
+	"name": "new_name",
+	"image": "string_image",
+	"phone": "+7 (999) 123-45-67",
+	"birthday": "гггг-мм-дд",
+	"weight": 50
+}
+
+Для админа просто не отправляем вес
+
+А в ответ получаем:
+ChangeDataUserResponse
+{
+	"success": true/false
+}
+Пользователь должен увидеть сообщение: "Данные успешно сохранены"
+Если false, то просто 400, сообщение: "Произошла ошибка"
+
+Невалидные данные проверяем на мобилке.
+Пользователь должен увидеть сообщение: "Данные не валидны. Связаться с нами: kakoi-to_email@gmail.com."
+
+Экран профиля: 
+Для отображения экрана профиля обычного и премиум-пользователя прокидываем в хедере "Bearer access_token", а в body:
+UserProfileRequest
+{
+	"period": "week", // month, year, all time
+}
+
+UserProfileResponse
+{
+	"name": "name",
+	"image": "string_image",
+	"statistics": {
+		"total_distance_in_meters": 123411,
+		"total_time": 123456789,
+		"total_calories": 123456789
+	},
+	"achievements": [
+		{
+			"id": 1234,
+			"name": "name_of_achievement",
+			"image": "string_image",
+			"distance": 123456789
+		},
+		{
+			"id": 1234,
+			"name": "name_of_achievement",
+			"image": "string_image",
+			"distance": 123456789
+		},
+		{
+			"id": 1234,
+			"name": "name_of_achievement",
+			"image": "string_image",
+			"distance": 123456789
+		}
+	]
+}
+
+Для отображения экрана профиля админа прокидываем в хедере "Bearer access_token"
+
+AdminProfileResponse
+{
+	"name": "name",
+	"image": "string_image"
+}
+
+Экран статистики:
+Для отображения статистики премиум-пользователя прокидываем в хедере "Bearer access_token", а в body:
+PremiumStatisticsRequest
+{
+	"period": "week", // month, year, all time
+}
+
+PremiumStatisticsResponse
+{
+	"total_distance_in_meters": 123411,
+	"total_time": 123456789,
+	"total_calories": 123456789,
+	"avg_speed": 12345,
+	"activities": [
+		{
+			"id": 1234,
+			"activity_type": "running", // cycling or swimming
+			"avg_speed": 12345,
+			"timestamp": 12345567889,
+			"distance_in_meters": 12345,
+			"time_in_millis": 123456789,
+			"calories_burned": 1234
+		},
+		{
+			"id": 1234,
+			"activity_type": "running", // cycling or swimming
+			"avg_speed": 12345,
+			"timestamp": 12345567889,
+			"distance_in_meters": 12345,
+			"time_in_millis": 123456789,
+			"calories_burned": 1234
+		},
+		{
+			"id": 1234,
+			"activity_type": "running", // cycling or swimming
+			"avg_speed": 12345,
+			"timestamp": 12345567889,
+			"distance_in_meters": 12345,
+			"time_in_millis": 123456789,
+			"calories_burned": 1234
+		}
+	]
+}
+
+Для отображения статистики админа прокидываем в хедере "Bearer access_token", а в body:
+AdminStatisticsRequest
+{
+	"period": "week", // month, year, all time
+}
+
+AdminStatisticsResponse
+{
+	"total_users": 1000,
+	"premium_users": 200,
+	"graph_data": [
+		{
+			"timestamp": 12345567889,
+			"users_with_premium": 50,
+			"users_without_premium": 950
+		},
+		{
+			"timestamp": 12345567889,
+			"users_with_premium": 55,
+			"users_without_premium": 945
+		}
+	]
+}
+
+Для отмены премиум-подписки премиум-пользователем прокидываем в хедере "Bearer access_token"
+
+CancelPremiumResponse
+{
+	"success": true/false
+}
+Пользователь должен увидеть сообщение: "Премиум-подписка успешно отменена"
+Если false, то 400 и сообщение: "Произошла ошибка"
