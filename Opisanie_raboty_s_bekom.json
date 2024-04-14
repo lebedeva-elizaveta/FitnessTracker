@@ -271,27 +271,42 @@ BuyPremiumRequest
 GetPremiumResponse
 {
 	"success": true,
-	"timestamp": 12345678
-}
+	"timestamp": 12345678 // дата начала премиум-подписки
+}, 201
 Пользователь должен увидеть сообщение: "Поздравляем с приобретенем премиум-подписки!"
+
+Ошибки:
+InvalidCardDataResponse
+{
+    "success": false,
+	"message": "Invalid card_data"
+}, 400
+
+Ошибка токена
+TokenErrorResponse
+{
+	"success": false
+}, 401
+
+Если такого пользователя нет:
+UserNotFoundResponse
+{
+	"success": false
+}, 404
+Пользователь, наверное, просто увидит сообщение: "Произошла ошибка."
 
 Невалидные данные проверяем на мобилке.
 Пользователь должен увидеть сообщение: "Данные не валидны. Связаться с нами: kakoi-to_email@gmail.com."
 
-Для получение текущих данных прокидываем в хедере "Bearer access_token", а в body:
-GetCurrentDataRequest
+Для получение текущих данных прокидываем в хедере "Bearer access_token", ответ:
+GetCurrentDataResponse
 {
+    "id": 1234,
 	"name": "curr_name",
 	"image": "string_image",
 	"phone": "+7 (999) 123-45-67",
 	"birthday": "гггг-мм-дд",
 	"weight": 50
-}
-
-А в ответ получаем:
-GetCurrentDataResponse
-{
-	"success": true/false
 }
 
 Для изменения личных данных прокидываем в хедере "Bearer access_token", а в body:

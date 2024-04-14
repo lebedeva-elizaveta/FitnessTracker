@@ -62,7 +62,8 @@ class Card(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     card_name = db.Column(db.String(255), nullable=False)
     card_number_hash = db.Column(db.String(255), nullable=False, unique=True)
-    expiration_date_hash = db.Column(db.String(255), nullable=False)
+    month_hash = db.Column(db.String(255), nullable=False)
+    year_hash = db.Column(db.String(255), nullable=False)
     cvv_hash = db.Column(db.String(255), nullable=False)
 
 

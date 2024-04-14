@@ -2,10 +2,10 @@ from datetime import datetime, timedelta
 
 from flask import jsonify, request
 from jwt import decode
-from models import db, User, Admin, Activity, Premium, Admin_User, Admin_Premium
-from config import SECRET_KEY
+from models import db, User, Admin, Activity, Premium, Admin_User, Admin_Premium, Card
+from config import SECRET_KEY, AES_KEY, AES_IV
 import jwt
-from utils import check_email, generate_password_hash, check_password, is_premium, check_access_token
+from utils import check_email, generate_password_hash, check_password, is_premium, check_access_token, encrypt_data
 from flask import Blueprint
 
 api_bp = Blueprint('api', __name__)
@@ -754,7 +754,6 @@ def admin_actions_post():
 
 @api_bp.route('/add_admin_user_data', methods=['POST'])
 def add_admin_user_data(admin_id, user_id, action):
-
     admin = Admin.query.get(admin_id)
     user = User.query.get(user_id)
     if not admin:
@@ -770,7 +769,6 @@ def add_admin_user_data(admin_id, user_id, action):
 
 @api_bp.route('/add_admin_premium_data', methods=['POST'])
 def add_admin_premium_data(admin_id, premium_id, action):
-
     admin = Admin.query.get(admin_id)
     premium = Premium.query.get(premium_id)
     if not admin:
@@ -782,3 +780,216 @@ def add_admin_premium_data(admin_id, premium_id, action):
     db.session.commit()
 
     return jsonify({"success": True}), 201
+
+
+@api_bp.route('/buy_premium', methods=['POST'])
+def buy_premium():
+    """
+    Покупка премиума
+    ---
+    tags:
+      - Премиум
+    summary: Покупка премиума пользователем
+    parameters:
+      - name: Authorization
+        in: header
+        required: true
+        type: string
+        description: Токен доступа пользователя
+      - name: card_data
+        in: body
+        required: true
+        schema:
+          id: BuyPremiumRequest
+          properties:
+            card_name:
+              type: string
+              description: Имя карты
+            card_number:
+              type: string
+              description: Номер карты
+            month:
+              type: integer
+              description: Месяц срока действия
+            year:
+              type: integer
+              description: Год срока действия
+            cvv:
+              type: integer
+              description: CVV карты
+    responses:
+      201:
+        description: Успешная покупка премиума
+        schema:
+          id: GetPremiumResponse
+          properties:
+            success:
+              type: boolean
+              description: Результат покупки
+            timestamp:
+              type: string
+              description: Дата начала премиум подписки
+      400:
+        description: Некорректные данные карты
+        schema:
+          id: InvalidCardDataResponse
+          properties:
+            success:
+              type: boolean
+              description: Результат действия
+            message:
+              type: string
+              description: Сообщение о некорректных данных
+      401:
+        description: Токен некорректный
+        schema:
+          id: TokenErrorResponse
+          properties:
+            success:
+              type: boolean
+              description: Результат действия
+      404:
+        description: Пользователь не найден
+        schema:
+          id: NotFoundErrorResponse
+          properties:
+            success:
+              type: boolean
+              description: Результат действия
+    """
+    access_token = request.headers.get('Authorization')
+    access_token_is_correct = check_access_token(access_token)
+    if not access_token_is_correct:
+        return jsonify({"success": False}), 401
+    clear_token = access_token.replace('Bearer ', '')
+    payload = decode(jwt=clear_token, key=SECRET_KEY, algorithms=['HS256', 'RS256'])
+    user = User.query.filter_by(id=payload['sub']).first()
+    user_id = payload['sub']
+    if not user:
+        return jsonify({"success": False}), 404
+    card_data = request.json
+    card_name = card_data['card_name']
+    card_number = card_data['card_number']
+    month = str(card_data['month'])
+    year = str(card_data['year'])
+    cvv = str(card_data['cvv'])
+
+    encrypted_card_number = encrypt_data(AES_KEY, AES_IV, card_number.encode())
+    encrypted_month = encrypt_data(AES_KEY, AES_IV, month.encode())
+    encrypted_year = encrypt_data(AES_KEY, AES_IV, year.encode())
+    encrypted_cvv = encrypt_data(AES_KEY, AES_IV, cvv.encode())
+
+    existing_card = Card.query.filter_by(card_number_hash=encrypted_card_number.hex()).first()
+    if existing_card:
+        if existing_card.month_hash == encrypted_month.hex() and existing_card.year_hash == encrypted_year.hex()\
+                and existing_card.cvv_hash == encrypted_cvv.hex():
+            start_date = datetime.utcnow()
+            end_date = start_date + timedelta(days=30)
+            new_premium = Premium(
+                user_id=user_id,
+                start_date=start_date,
+                end_date=end_date
+            )
+            db.session.add(new_premium)
+            db.session.commit()
+            return jsonify({"success": True, "timestamp": start_date}), 201
+        else:
+            return jsonify({"success": False, "message": "Invalid card_data"}), 400
+    else:
+        new_card = Card(
+            card_name=card_name,
+            card_number_hash=encrypted_card_number.hex(),
+            month_hash=encrypted_month.hex(),
+            year_hash=encrypted_year.hex(),
+            cvv_hash=encrypted_cvv.hex()
+        )
+        db.session.add(new_card)
+        db.session.commit()
+        start_date = datetime.utcnow()
+        end_date = start_date + timedelta(days=30)
+        new_premium = Premium(
+            user_id=user_id,
+            start_date=start_date,
+            end_date=end_date
+        )
+        db.session.add(new_premium)
+        db.session.commit()
+        return jsonify({"success": True, "timestamp": start_date}), 201
+
+
+@api_bp.route('/get_current_data', methods=['GET'])
+def get_current_data():
+    """
+       Получение данных пользователя
+       ---
+       tags:
+         - Пользователи
+       summary: Получить данные пользователя
+       description: Возвращает данные пользователя
+       parameters:
+         - name: Authorization
+           in: header
+           required: true
+           type: string
+           description: Токен доступа пользователя
+       responses:
+         200:
+           description: Успешный запрос
+           schema:
+             id: GetCurrentDataResponse
+             type: object
+             properties:
+               id:
+                 type: integer
+                 description: ID пользователя
+               name:
+                 type: string
+                 description: Имя пользователя
+               image:
+                 type: string
+                 description: Аватар пользователя
+               phone:
+                 type: string
+                 description: Телефон пользователя
+               birthday:
+                 type: string
+                 description: Дата рождения пользователя в формате "гггг-мм-дд"
+               weight:
+                 type: integer
+                 description: Вес пользователя
+         401:
+           description: Токен некорректный
+           schema:
+             id: TokenErrorResponse
+             properties:
+               success:
+                 type: boolean
+                 description: Результат запроса
+         404:
+           description: Ошибка, если пользователь не найден
+           schema:
+             id: UserNotFoundResponse
+             properties:
+               free:
+                 type: boolean
+                 description: Результат запроса
+
+       """
+    access_token = request.headers.get('Authorization')
+    access_token_is_correct = check_access_token(access_token)
+    if not access_token_is_correct:
+        return jsonify({"success": False}), 401
+    clear_token = access_token.replace('Bearer ', '')
+    payload = decode(jwt=clear_token, key=SECRET_KEY, algorithms=['HS256', 'RS256'])
+    user = User.query.filter_by(id=payload['sub']).first()
+    if not user:
+        return jsonify({"success": False}), 404
+    user_id = payload['sub']
+    return jsonify({
+        "id": user_id,
+        "name": user.name,
+        "image": user.avatar,
+        "phone": user.phone,
+        "birthday": user.birthday.strftime('%Y-%m-%d'),
+        "weight": user.weight
+    }), 200

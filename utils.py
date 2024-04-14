@@ -5,6 +5,11 @@ from models import User, Premium, Admin
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.backends import default_backend
 from base64 import urlsafe_b64encode
+from cryptography.hazmat.primitives import padding
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.backends import default_backend
+import os
+
 
 from datetime import datetime
 
@@ -54,3 +59,12 @@ def is_premium(user_id):
     current_datetime = datetime.utcnow()
     active_premium = Premium.query.filter_by(user_id=user_id).filter(Premium.end_date > current_datetime).first()
     return active_premium is not None
+
+
+def encrypt_data(key, iv, data):
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
+    encryptor = cipher.encryptor()
+    padder = padding.PKCS7(128).padder()
+    padded_data = padder.update(data) + padder.finalize()
+    ciphertext = encryptor.update(padded_data) + encryptor.finalize()
+    return ciphertext
