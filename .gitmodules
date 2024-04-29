@@ -1,0 +1,6 @@
+[submodule "sportik_i_tochka_server"]
+	path = sportik_i_tochka_server
+	url = https://github.com/lebedeva-elizaveta/sportik_i_tochka_server
+[submodule "SportikITochka"]
+	path = SportikITochka
+	url = https://github.com/Wasilewski6860/SportikITochka
