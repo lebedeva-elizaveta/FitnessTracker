@@ -85,7 +85,18 @@ entity User_Card {
   * card_id: integer <<FK>>
 }
 
+entity Achievement {
+  * id: integer <<PK>>
+  --
+  * name: varchar
+  * image: path to file
+  * distance: integer
+  --
+  * user_id: integer <<FK>>
+}
+
 User }|..o| Premium
+User }|..o| Achievement
 User ||..o{ Activity
 Admin ||--o{ Admin_Premium
 Premium ||--o{ Admin_Premium
