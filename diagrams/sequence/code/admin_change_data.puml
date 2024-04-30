@@ -1,0 +1,25 @@
+@startuml
+actor "Администратор" as user
+participant "Клиент" as client
+participant "Сервер" as server
+database "База данных" as db
+
+user -> client : Изменить личные данные
+activate client
+
+client -> client: Проверка валидности
+break Данные не валидны
+   client --> user: Показать ошибку
+end
+
+client -> server: Новые личные данные
+activate server
+server -> db: Отправка новых личных данных
+activate db
+db --> server: Данные успешно обновлены
+deactivate db
+server --> client: Данные сохранены
+deactivate server
+client --> user: Личные данные обновлены
+deactivate client
+@enduml

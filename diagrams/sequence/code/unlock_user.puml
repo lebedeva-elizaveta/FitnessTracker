@@ -1,0 +1,20 @@
+@startuml
+actor "Администратор" as user
+participant "Клиент" as client
+participant "Сервер" as server
+database "База данных" as db
+
+user -> client : Разблокировать учетную запись пользователя
+activate client
+client -> server: Разблокировать учетную запись
+activate server
+
+server -> db: Запрос на отмену блокировки
+activate db
+db --> server: Успешно
+deactivate db
+server --> client: Учетная запись разблокирована
+deactivate server
+client --> user: Учетная запись пользователя разблокирована
+deactivate client
+@enduml

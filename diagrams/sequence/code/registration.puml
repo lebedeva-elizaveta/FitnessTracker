@@ -1,0 +1,25 @@
+@startuml
+actor "Неавторизованный пользователь" as unautorizedUser
+participant "Клиент" as client
+participant "Сервер" as server
+database "База данных" as db
+
+unautorizedUser -> client: Зарегистрироваться
+activate client
+
+client -> client: Проверка валидности
+break "Некорректные данные"
+    client --> unautorizedUser: Показать ошибку
+end
+
+client -> server: Отправка введенных данных
+activate server
+server -> db: Отправка введенных данных
+activate db
+db --> server: Пользователь добавлен
+deactivate db
+server --> client: Успешная регистрация
+deactivate server
+client --> unautorizedUser: Успешная регистрация
+deactivate client
+@enduml

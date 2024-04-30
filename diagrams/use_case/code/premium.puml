@@ -1,0 +1,67 @@
+@startuml
+left to right direction
+
+:Премиум-пользователь: as user
+
+(Выбрать активность) as user_choice
+(Выбрать бег) as user_running
+(Выбрать плавание) as user_swimming
+(Выбрать велоспорт) as user_bicycling
+(Записать активность) as user_record
+(Поставить запись на паузу) as user_pause
+(Сохранить активность) as user_save
+(Посмотреть сохраненные активности) as user_activities
+(Посмотреть рейтинг) as user_rating
+(Получить продление премиум-подписки за 1 место в рейтинге) as user_first
+(Посмотреть статистику) as user_statistics_prem
+(Посмотреть статистику о сохраненных активностях в графиках) as user_graphics
+
+(Отменить премиум-подписку) as user_cancel
+(Выйти из аккаунта) as user_exit
+(Перейти в профиль) as user_profile
+(Изменять личные данные) as user_change
+(Видеть личные данные) as user_view_data
+(Ввести имя) as user_profile_name
+(Ввести дату рождения) as user_date
+(Ввести номер телефона) as user_phone
+(Загрузить аватар) as user_photo
+(Ввести вес) as user_weight
+(Получить достижение) as user_achievements
+(Получить достижение за 50 км) as user_50
+(Получить достижение за 100 км) as user_100
+(Получить достижение за 250 км) as user_250
+(Получить достижение за 500 км) as user_500
+(Получить достижение за 1000 км) as user_1000
+(Видеть статистику в цифрах) as user_statistics
+
+user --> user_choice
+user --> user_record
+user_choice <|-- user_running
+user_choice <|-- user_swimming
+user_choice <|-- user_bicycling
+user_record <.. user_pause : <<extends>>
+user_record ..> user_save : <<include>>
+user --> user_rating
+user --> user_activities
+user -->user_statistics_prem
+user_statistics_prem ..> user_graphics : <<include>>
+user_rating <.. user_first : <<extends>>
+
+user --> user_profile
+user_profile ..> user_view_data : <<include>>
+user_profile <.. user_change : <<extends>>
+user_profile <.. user_cancel : <<extends>>
+user_change <|-- user_profile_name
+user_change <|-- user_date
+user_change <|-- user_phone
+user_change <|-- user_photo
+user_change <|-- user_weight
+user --> user_achievements
+user_achievements <|-- user_50
+user_achievements <|-- user_100
+user_achievements <|-- user_250
+user_achievements <|-- user_500
+user_achievements <|-- user_1000
+user_profile ..> user_statistics : <<include>>
+user_profile <.. user_exit : <<extends>>
+@enduml

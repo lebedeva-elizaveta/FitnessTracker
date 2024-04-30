@@ -1,0 +1,22 @@
+@startuml
+left to right direction
+
+skinparam componentStyle uml1
+
+node "Android устройство" {
+[Kotlin client] as client
+}
+
+node "Сервер" {
+[Flask Server] as server
+}
+
+node "База Данных" {
+  [PostgreSQL] as bd
+}
+
+client -- server : HTTPS
+server -- bd : SQLAlchemy
+
+@enduml
+

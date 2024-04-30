@@ -1,0 +1,19 @@
+@startuml
+actor "Авторизованный пользователь" as user
+participant "Клиент" as client
+participant "Сервер" as server
+database "База данных" as db
+
+user -> client : Посмотреть список всех сохраненных активностей
+activate client
+client -> server: Получить список всех сохраненных активностей
+activate server
+server -> db: Запрос на получение всех сохраненных активностей
+activate db
+db --> server: Список всех сохраненных активностей
+deactivate db
+server --> client: Список всех сохраненных активностей
+deactivate server
+client --> user: Список всех сохраненных активностей
+deactivate client
+@enduml

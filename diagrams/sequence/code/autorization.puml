@@ -1,0 +1,40 @@
+@startuml
+actor "Неавторизованный пользователь" as unautorizedUser
+participant "Клиент" as client
+participant "Сервер" as server
+database "База данных" as db
+
+unautorizedUser -> client: Авторизоваться
+activate client
+client -> client: Проверка валидности
+
+break Данные не валидны
+    client --> unautorizedUser: Показать ошибку
+end
+
+client -> server: Отправка email и пароля
+activate server
+server -> db: Проверка существования пользователя
+activate db
+db --> server: Результат проверки
+deactivate db
+
+alt Пользователь найден
+server --> client: Пользователь найден
+client --> unautorizedUser: Вход в аккаунт выполнен
+else Email не найден
+server --> client: Пользователь не найден
+client --> unautorizedUser: Ошибка "Пользователь не найден"
+else Пароль неверный
+server --> client: Неверный пароль
+client --> unautorizedUser: Ошибка "Пароль неверный"
+else Пользователь заблокирован
+server --> client: Пользователь заблокирован
+client --> unautorizedUser: Ошибка "Вы заблокированы"
+end
+
+deactivate server
+deactivate client
+
+
+@enduml

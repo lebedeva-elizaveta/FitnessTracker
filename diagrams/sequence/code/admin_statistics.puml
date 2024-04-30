@@ -1,0 +1,21 @@
+@startuml
+actor "Администратор" as user
+participant "Клиент" as client
+participant "Сервер" as server
+database "База данных" as db
+
+user -> client : Получить статистику в графиках
+activate client
+client -> server: Получить данные для статистики
+activate server
+
+server -> db: Получить данных о количестве премиум-пользователей
+activate db
+db --> server: Данные о количестве премиум-пользователей
+deactivate db
+server -> server : Подсчет статистики
+server --> client: Отправка данных для статистики
+deactivate server
+client --> user: Статистика в виде графиков получена
+deactivate client
+@enduml

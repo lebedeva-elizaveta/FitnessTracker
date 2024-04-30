@@ -1,0 +1,19 @@
+@startuml
+actor "Авторизованный пользователь" as user
+participant "Клиент" as client
+participant "Сервер" as server
+database "База данных" as db
+
+user -> client : Записать новую активность
+activate client
+client -> server: Данные о новой активности
+activate server
+server -> db: Отправка данных о новой активности
+activate db
+db --> server: Данные успешно добавлены
+deactivate db
+server --> client: Данные сохранены
+deactivate server
+client --> user: Новая активность успешно записана
+deactivate client
+@enduml

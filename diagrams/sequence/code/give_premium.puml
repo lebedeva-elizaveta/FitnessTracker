@@ -1,0 +1,20 @@
+@startuml
+actor "Администратор" as user
+participant "Клиент" as client
+participant "Сервер" as server
+database "База данных" as db
+
+user -> client : Выдать премиум-подписку пользователю
+activate client
+client -> server: Выдать премиум-подписку
+activate server
+
+server -> db: Запрос на выдачу премиум-подписки
+activate db
+db --> server: Успешно
+deactivate db
+server --> client: Премиум-подписка успешно выдана
+deactivate server
+client --> user: Премиум-подписка успешно выдана пользователю
+deactivate client
+@enduml

@@ -1,0 +1,97 @@
+@startuml
+
+entity User {
+  * id: integer <<PK>>
+  --
+  * email: varchar
+  * password_hash: varchar
+  * name: varchar
+  * birthday: date
+  * phone: varchar
+  * weight: integer
+  avatar: path to file
+  * date_of_registration: timestamp
+  * is_blocked: boolean
+}
+
+entity Activity {
+  * id: integer <<PK>>
+  --
+  * duration: integer
+  * distance_in_meters: integer
+  * calories_burned: integer
+  * average_speed: double
+  * date: date
+  * image: path to file
+  * activity_type: enum
+  --
+  * user_id: integer <<FK>>
+}
+
+entity Admin{
+  * id: integer <<PK>>
+  --
+  * email: varchar
+  * password_hash: varchar
+  * name: varchar
+  * birthday: date
+  * phone: varchar
+  avatar: path to file
+}
+
+entity Card {
+  * id: integer <<PK>>
+  --
+  * card_name: varchar
+  * card_number_hash: varchar
+  * month_hash: varchar
+  * year_hash: varchar
+  * cvv_hash: varchar
+}
+
+entity Premium {
+  * id: integer <<PK>>
+  --
+  * start_date: timestamp
+  * end_date: timestamp
+  --
+  * user_id: integer <<FK>>
+}
+
+entity Admin_Premium {
+  * id: integer <<PK>>
+  --
+  * action: enum
+  * timestamp: timestamp
+  --
+  * admin_id: integer <<FK>>
+  * premium_id: integer <<FK>>
+}
+
+entity Admin_User {
+  * id: integer <<PK>>
+  --
+  * action: enum
+  * timestamp: timestamp
+  --
+  * admin_id: integer <<FK>>
+  * user_id: integer <<FK>>
+}
+
+entity User_Card {
+  * id: integer <<PK>>
+  --
+  * user_id: integer <<FK>>
+  * card_id: integer <<FK>>
+}
+
+User }|..o| Premium
+User ||..o{ Activity
+Admin ||--o{ Admin_Premium
+Premium ||--o{ Admin_Premium
+Admin ||--o{ Admin_User
+User ||--o{ Admin_User
+User ||--o{ User_Card
+Card ||--o{ User_Card
+
+@enduml

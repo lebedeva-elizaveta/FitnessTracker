@@ -1,0 +1,20 @@
+@startuml
+actor "Премиум-пользователь" as user
+participant "Клиент" as client
+participant "Сервер" as server
+database "База данных" as db
+
+user -> client : Отменить премиум-подписку
+activate client
+client -> server: Отменить премиум-подписку
+activate server
+
+server -> db: Запрос на отмену премиум-подписку
+activate db
+db --> server: Премиум-подписка успешно отменена
+deactivate db
+server --> client: Премиум-подписка успешно отменена
+deactivate server
+client --> user: Премиум-подписка успешно отменена
+deactivate client
+@enduml

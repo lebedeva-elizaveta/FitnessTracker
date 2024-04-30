@@ -1,0 +1,33 @@
+@startuml
+left to right direction
+:Неавторизованный пользователь: as un_user
+(Пройти онбординг) as un_onbording
+(Ознакомиться с функционалом приложения) as un_functions
+(Войти в аккаунт) as un_login
+(Зарегистрироваться) as un_signin
+(Восстановить пароль) as un_recover
+(Ввести email) as un_email
+(Ввести email) as un_email2
+(Ввести пароль) as un_password
+(Ввести новый пароль) as un_new_password
+(Повторить новый пароль) as un_new_password2
+(Ввести дату рождения) as un_date
+(Ввести вес) as un_weight
+(Ввести телефон) as un_phone
+
+un_user --> un_onbording
+un_onbording ..> un_functions : <<include>>
+un_user --> un_login
+un_user --> un_signin
+un_user --> un_recover
+un_login ..> un_email : <<include>>
+un_login ..> un_password : <<include>>
+un_signin ..> un_email : <<include>>
+un_signin ..> un_new_password : <<include>>
+un_signin ..> un_date : <<include>>
+un_signin ..> un_weight : <<include>>
+un_signin ..> un_phone : <<include>>
+un_recover ..> un_email2 : <<include>>
+un_recover ..> un_new_password : <<include>>
+un_recover ..> un_new_password2 : <<include>>
+@enduml

@@ -1,0 +1,43 @@
+@startuml
+left to right direction
+
+:Администратор: as admin
+
+(Управлять премиум-подписками) as admin_prem
+(Выдать премиум-подписку) as admin_prem1
+(Лишить пользователя премиум-подписки) as admin_prem2
+(Управлять пользователями) as admin_users
+(Заблокировать пользователя) as admin_users1
+(Разблокировать пользователя) as admin_users2
+(Смотреть экран рейтинга) as admin_rating
+(Смотреть статистику) as admin_statistics
+(Видеть график изменения количества премиум-пользователей) as admin_graphic
+
+(Перейти в профиль) as admin_profile
+(Изменять личные данные) as admin_data
+(Выйти из аккаунта) as admin_exit
+(Видеть личные данные) as admin_view_data
+(Ввести имя) as admin_name
+(Ввести дату рождения) as admin_date
+(Ввести номер телефона) as admin_phone
+(Загрузить аватар) as admin_photo
+
+admin --> admin_rating
+admin_rating <.. admin_prem : <<extends>>
+admin_rating <.. admin_users : <<extends>>
+admin --> admin_statistics
+admin_prem <|-- admin_prem1
+admin_prem <|-- admin_prem2
+admin_users <|-- admin_users1
+admin_users <|-- admin_users2
+admin_statistics ..> admin_graphic : <<include>>
+
+admin --> admin_profile
+admin_profile ..> admin_view_data : <<include>>
+admin_profile <.. admin_data : <<extends>>
+admin_data <|-- admin_name
+admin_data <|-- admin_date
+admin_data <|-- admin_phone
+admin_data <|-- admin_photo
+admin_profile <.. admin_exit : <<extends>>
+@enduml

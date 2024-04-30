@@ -1,0 +1,25 @@
+@startuml
+actor "Авторизованный пользователь" as user
+participant "Клиент" as client
+participant "Сервер" as server
+database "База данных" as db
+
+user -> client : Купить премиум-подписку
+activate client
+
+client -> client: Проверка валидности
+break Данные не валидны
+    client --> user: Показать ошибку
+end
+
+client -> server: Платежные данные карты
+activate server
+server -> db: Отправка платежных данных карты
+activate db
+db --> server: Данные успешно добавлены
+deactivate db
+server --> client: Данные сохранены
+deactivate server
+client --> user: Премиум-подписка успешно куплена
+deactivate client
+@enduml
