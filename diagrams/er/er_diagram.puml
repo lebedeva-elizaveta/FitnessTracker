@@ -58,16 +58,6 @@ entity Premium {
   * user_id: integer <<FK>>
 }
 
-entity Admin_Premium {
-  * id: integer <<PK>>
-  --
-  * action: enum
-  * timestamp: timestamp
-  --
-  * admin_id: integer <<FK>>
-  * premium_id: integer <<FK>>
-}
-
 entity Admin_User {
   * id: integer <<PK>>
   --
@@ -95,11 +85,18 @@ entity Achievement {
   * user_id: integer <<FK>>
 }
 
+entity Premium_Award {
+    * id: integer <<PK>>
+    --
+    timestamp: timestamp
+    --
+    user_id: integer <<FK>>
+}
+
 User }|..o| Premium
+User }|..o| Premium_Award
 User }|..o| Achievement
 User ||..o{ Activity
-Admin ||--o{ Admin_Premium
-Premium ||--o{ Admin_Premium
 Admin ||--o{ Admin_User
 User ||--o{ Admin_User
 User ||--o{ User_Card
