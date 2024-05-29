@@ -23,10 +23,12 @@
 - Презентация технического задания
 [pptx](https://docs.google.com/presentation/d/1NHZ_jL5ez2CmKgNM5DcgpiV8B4-mD4gs/edit?usp=drive_link&ouid=100220230475322534661&rtpof=true&sd=true)
 [pdf](https://drive.google.com/file/d/1rlh87wjFIYERcZ4Z6BroeiVsHKWEzhEC/view?usp=drive_link)
-- Видео с [презентацией](https://youtu.be/lHHgl9F8JbE)
+- Видео с [презентацией](https://youtu.be/lHHgl9F8JbE) технического задания
 - [Презентация](https://drive.google.com/file/d/1F3LrQgz8zeKhLNtxHwyzJXvrxcZY3NNK/view?usp=sharing) на вторую аттестацию
-- [Видео](https://www.youtube.com/playlist?list=PLwPMLSuELXoq5u008p8zATRfZLawuJBhV) с прохождением всех пользовательских сценариев
-- Видео с [презентацией](https://youtu.be/iGmNdY2LGMs)
+- Видео с [презентацией](https://youtu.be/iGmNdY2LGMs) на вторую аттестацию
+- [Видео](https://youtu.be/ucM-bBCzUTM) с прохождением всех пользовательских сценариев
+- Презентация к предзащите [pptx](https://docs.google.com/presentation/d/1xafiOEt91GZTWbWcF7UfEAo6qSr5vtag/edit?usp=drive_link&ouid=107969501681435805535&rtpof=true&sd=true) [pdf](https://drive.google.com/file/d/1T5MEXJWvvXeZr3IxhY8f-8RtDG_2i5tn/view?usp=drive_link)
+- [Видеопрезентация](https://youtu.be/GiuVq1EUtCo) к предзащите
 
 ### Аналитика
 [Скриншоты](https://github.com/lebedeva-elizaveta/FitnessTracker/tree/main/analitycs)
