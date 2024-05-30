@@ -34,7 +34,7 @@
 [Скриншоты](https://github.com/lebedeva-elizaveta/FitnessTracker/tree/main/analitycs)
 
 ### Инструкция по установке
-Скачать [apk]([https://drive.google.com/file/d/14FLr2jO3AiktP_3leThcmxApLqdL_8eZ/view?usp=drive_link](https://drive.google.com/file/d/1ONwKe2xslkzNjIJNdYfb-kYviScw-FQc/view?usp=sharing))
+Скачать [apk](https://drive.google.com/file/d/1ONwKe2xslkzNjIJNdYfb-kYviScw-FQc/view)
 
 Зарегистрироваться или ввести тестовые данные для пользователя:
 
