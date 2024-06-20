@@ -31,6 +31,8 @@
 - [Видеопрезентация](https://youtu.be/GiuVq1EUtCo) к предзащите
 - Презентация к защите [pptx](https://docs.google.com/presentation/d/190xBvu6i4V6BKtEhgj8abO82cAnLZi2m/edit?usp=sharing&ouid=107969501681435805535&rtpof=true&sd=true) [pdf](https://drive.google.com/file/d/18sT6smZJYCFpNUawTwUWUxW1yFHmskIB/view?usp=sharing)
 - [Видеопрезентация](https://youtu.be/BiqKVXt7mz8) к защите
+- Видео с описанием архитектуры [мобильной](https://drive.google.com/file/d/1KU5SWJGzn5apWS11dANin7jScQDAq8W0/view?usp=sharing) части приложения
+- Видео с описанием архитектуры [серверной](https://youtu.be/q-juJyHhcww) части приложения
 
 ### Аналитика
 [Скриншоты](https://github.com/lebedeva-elizaveta/FitnessTracker/tree/main/analitycs)
