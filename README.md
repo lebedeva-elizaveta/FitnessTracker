@@ -34,7 +34,7 @@
 [Скриншоты](https://github.com/lebedeva-elizaveta/FitnessTracker/tree/main/analitycs)
 
 ### Инструкция по установке
-Скачать [apk](https://drive.google.com/file/d/1ONwKe2xslkzNjIJNdYfb-kYviScw-FQc/view)
+Скачать [apk](https://github.com/lebedeva-elizaveta/FitnessTracker/blob/main/спортик%20и%20точка.apk)
 
 Зарегистрироваться или ввести тестовые данные для пользователя:
 
