@@ -29,12 +29,14 @@
 - [Видео](https://youtu.be/ucM-bBCzUTM) с прохождением всех пользовательских сценариев
 - Презентация к предзащите [pptx](https://docs.google.com/presentation/d/1xafiOEt91GZTWbWcF7UfEAo6qSr5vtag/edit?usp=drive_link&ouid=107969501681435805535&rtpof=true&sd=true) [pdf](https://drive.google.com/file/d/1T5MEXJWvvXeZr3IxhY8f-8RtDG_2i5tn/view?usp=drive_link)
 - [Видеопрезентация](https://youtu.be/GiuVq1EUtCo) к предзащите
+- Презентация к защите [pptx](https://docs.google.com/presentation/d/190xBvu6i4V6BKtEhgj8abO82cAnLZi2m/edit?usp=sharing&ouid=107969501681435805535&rtpof=true&sd=true) [pdf](https://drive.google.com/file/d/18sT6smZJYCFpNUawTwUWUxW1yFHmskIB/view?usp=sharing)
+- [Видеопрезентация](https://youtu.be/BiqKVXt7mz8) к защите
 
 ### Аналитика
 [Скриншоты](https://github.com/lebedeva-elizaveta/FitnessTracker/tree/main/analitycs)
 
 ### Инструкция по установке
-Скачать [apk](https://github.com/lebedeva-elizaveta/FitnessTracker/blob/main/спортик%20и%20точка.apk)
+Скачать [apk](https://drive.google.com/file/d/14FLr2jO3AiktP_3leThcmxApLqdL_8eZ/view?usp=drive_link)
 
 Зарегистрироваться или ввести тестовые данные для пользователя:
 
